@@ -18,8 +18,6 @@ $staticRoutes = [
 ];
 
 $routeGenerator = new \VuFind\Route\RouteGenerator();
-$routeGenerator->addRecordRoutes($config, $recordRoutes);
-$routeGenerator->addDynamicRoutes($config, $dynamicRoutes);
 $routeGenerator->addStaticRoutes($config, $staticRoutes);
 
 // Add the home route last

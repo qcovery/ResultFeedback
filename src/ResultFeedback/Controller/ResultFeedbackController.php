@@ -13,7 +13,7 @@
 namespace ResultFeedback\Controller;
 
 use VuFind\Exception\Mail as MailException;
-use Zend\Mail\Address;
+use Laminas\Mail\Address;
 
 /**
  * Feedback Class
@@ -31,7 +31,7 @@ class ResultFeedbackController extends \VuFind\Controller\AbstractBase
     /**
      * Display Feedback home form.
      *
-     * @return \Zend\View\Model\ViewModel
+     * @return \Laminas\View\Model\ViewModel
      */
     public function homeAction()
     {
@@ -46,10 +46,10 @@ class ResultFeedbackController extends \VuFind\Controller\AbstractBase
      */
     public function emailAction()
     {
-        $translator = $this->serviceLocator->get('Zend\Mvc\I18n\Translator');
+        $translator = $this->serviceLocator->get('Laminas\Mvc\I18n\Translator');
 
         $view = $this->createViewModel();
-        $view->useRecaptcha = $this->recaptcha()->active('feedback');
+        $view->useCaptcha = $this->captcha()->active('feedback');
         $view->name = $this->params()->fromPost('name');
         $view->email = $this->params()->fromPost('email');
         $view->comments = $this->params()->fromPost('comments');
@@ -84,7 +84,7 @@ class ResultFeedbackController extends \VuFind\Controller\AbstractBase
 
         // Process form submission:
         $view->hideForm = false;
-        if ($this->formWasSubmitted('submit', $view->useRecaptcha)) {
+        if ($this->formWasSubmitted('submit', $view->useCaptcha)) {
             if (empty($view->email) || empty($view->comments)) {
                 $this->flashMessenger()->addMessage('bulk_error_missing', 'error');
                 return;
